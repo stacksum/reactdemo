@@ -24,7 +24,11 @@ import React, { Component } from "react";
 
 
 const Student = (props) =>{
-	return <h1>Hello {props.name}</h1>
+	return(
+		<React.Fragment>
+			<h4>Hello {props.name}</h4>
+		</React.Fragment>
+	);
 }
 
 
