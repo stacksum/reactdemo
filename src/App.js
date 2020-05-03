@@ -16,47 +16,58 @@ import Person from "./Component/Person";
 }*/
 
 // when we use class we can Manipulate State    //Section-2
-// class App extends Component{
-//   state = {
-//     Person:[
-//       { name:'Max',age:27},
-//       { name:'Manu',age:28},
-//       { name:'Stephanie',age:23}
-//     ]
-//   }
+class App extends Component{
+  state = {
+    Person:[
+      { name:'Max',age:27},
+      { name:'Manu',age:28},
+      { name:'Stephanie',age:23}
+    ]
+  }
 
-//   swichNameHandler = () =>{
-//   //console.log('was clicked...');
-//   //DON'T DO This   this.state.Person[0].name = "CHIRAG";
+  swichNameHandler = () =>{
+  //console.log('was clicked...');
+  //DON'T DO This   this.state.Person[0].name = "CHIRAG";
 
-//     this.setState({
-//       Person:[
-//         { name:'CHIRAG',age:27},
-//         { name:'Manu',age:28},
-//         { name:'Stephanie',age:23}
-//       ]
-//     });
-//   }
+    this.setState({
+      Person:[
+        { name:'CHIRAG',age:27},
+        { name:'Manu',age:28},
+        { name:'Stephanie',age:23}
+      ]
+    });
+  }
 
 
-//   render(){
-//     return(
-//       <div className="App">
-//         <h1>This is my react app</h1>
-//         <p>This is realy working.</p>
-//         <button onClick={this.swichNameHandler}>Switch Name</button>
-//         <Students name="Chirag"/>
-//         <Students name="Nikunj"/>
-//         <Students name="Jigna"/>
-//         <Students name="Sonali"/>
-//         <Person name={this.state.Person[0].name} age={this.state.Person[0].age} />
-//         <Person name={this.state.Person[1].name} age={this.state.Person[1].age}>My Hobies: Cricket</Person>
-//         <Person name={this.state.Person[2].name} age={this.state.Person[2].age}/>
-//       </div>
-//     );
-//   }
+  render(){
+    return(
+      <div className="App">
+        <h1>This is my react app</h1>
+        <p>This is realy working.</p>
+        <button onClick={this.swichNameHandler}>Switch Name</button>
+        <Students name="Chirag"/>
+        <Students name="Nikunj"/>
+        <Students name="Jigna"/>
+        <Students name="Sonali"/>
+        <Person name={this.state.Person[0].name} age={this.state.Person[0].age} />
+        <Person name={this.state.Person[1].name} age={this.state.Person[1].age}
+        click={this.swichNameHandler.bind(this,'Max!')} changed={this.namechangedHandler}>My Hobies: Cricket</Person>
+        <Person name={this.state.Person[2].name} age={this.state.Person[2].age}/>
+      </div>
+    );
+  }
 
-// }
+  namechangedHandler = (event) => {
+    this.setState({
+      Person:[
+        { name:'CHIRAG',age:27},
+        { name:event.target.value,age:28},
+        { name:'Stephanie',age:23}
+      ]
+    });
+  }
+
+}
 
 //component composing.
 // const App = () =>{
@@ -74,12 +85,11 @@ import Person from "./Component/Person";
 //     )
 // }
 
-// export default App;
+export default App;
 
 
 //    Hook-UseState() Section-4
-
-const App = props => {
+/*const App = props => {
   const [personState,setpersonState] = useState({
     Person:[
       { name:'Max',age:27},
@@ -91,14 +101,25 @@ const App = props => {
 
   const [otherstate,setotherstate] = useState('some other value');
   console.log(personState,otherstate)
-  const swichNameHandler = () =>{
+  const swichNameHandler = (NewName) =>{
   //console.log('was clicked...');
   //DON'T DO This   this.state.Person[0].name = "CHIRAG";
 
   setpersonState({
     Person:[
-        { name:'CHIRAG',age:27},
+        { name:NewName,age:27},
         { name:'Manu',age:28},
+        { name:'Stephanie',age:23}
+      ]
+    });
+  }
+
+
+  const namechangedHandler = (event) => {
+    this.setState({
+      Person:[
+        { name:'CHIRAG',age:27},
+        { name:event.target.value,age:28},
         { name:'Stephanie',age:23}
       ]
     });
@@ -110,13 +131,15 @@ const App = props => {
       <Students name="Nikunj"/>
       <Students name="Jigna"/>
       <Students name="Sonali"/>
-      <button onClick={swichNameHandler}>Switch Name</button>
-      <Person name={personState.Person[0].name} age={personState.Person[0].age} />
-      <Person name={personState.Person[1].name} age={personState.Person[1].age}>My Hobies: Cricket</Person>
+      <button onClick={() => swichNameHandler('CHIRAG!!')}>Switch Name</button>
+      <Person name={personState.Person[0].name} age={personState.Person[0].age} />  
+      <Person name={personState.Person[1].name} age={personState.Person[1].age} 
+      click={swichNameHandler.bind(this,'Max!')} changed={namechangedHandler}>My Hobies: Cricket</Person>
       <Person name={personState.Person[2].name} age={personState.Person[2].age}/>
     </div>
   );
 }
 
-export default App;
+export default App;*/
 
+{/* <button onClick={swichNameHandler.bind(this,'CHIRAG')}>Switch Name</button> */}
