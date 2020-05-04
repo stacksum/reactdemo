@@ -1,7 +1,9 @@
 import React, { Component,Fragment,useState } from 'react';
-import Students from "./Student";
-import Person from "./Component/Person";
-
+import Students from "./Component/Student/Student";
+import Person from "./Component/Person/Person";
+import Userinput from './Component/Assignment/Userinput/Userinput';
+import Useroutput from './Component/Assignment/Useroutput/Useroutput';
+import "./App.css";
 
 // simple show the single Element  // Section-1
 /*class App extends Component{
@@ -22,8 +24,26 @@ class App extends Component{
       { name:'Max',age:27},
       { name:'Manu',age:28},
       { name:'Stephanie',age:23}
-    ]
+    ],
+    otherState:'some other value',
+    showPersons:false
   }
+
+  // state = {
+  //   username:'SuperMax'
+  // };
+
+
+  Usernamechangedhandler = (event) =>{
+    this.setState({username:event.target.value});
+  }
+
+
+  TogglePersonHandler = () =>{
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons:!doesShow});
+  };
+
 
   swichNameHandler = () =>{
   //console.log('was clicked...');
@@ -40,19 +60,74 @@ class App extends Component{
 
 
   render(){
+
+
+    const style ={
+      backgroundColor:'white',
+      font:'inherit',
+      border:'1px solid blue',
+      padding:'8px',
+      cursor:'pointer'
+    };
+
+
+    let persons = null;
+    
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          <button style={style} onClick={this.swichNameHandler}>Switch Name</button>
+          <Students name="Chirag"/>
+          <Students name="Nikunj"/>
+          <Students name="Jigna"/>
+          <Students name="Sonali"/>
+          <Person name={this.state.Person[0].name} age={this.state.Person[0].age} />
+          <Person name={this.state.Person[1].name} age={this.state.Person[1].age}
+          click={this.swichNameHandler.bind(this,'Max!')} changed={this.namechangedHandler}>My Hobies: Cricket</Person>
+          <Person name={this.state.Person[2].name} age={this.state.Person[2].age}/>
+        </div>
+      )
+    }
+
     return(
       <div className="App">
         <h1>This is my react app</h1>
         <p>This is realy working.</p>
-        <button onClick={this.swichNameHandler}>Switch Name</button>
-        <Students name="Chirag"/>
-        <Students name="Nikunj"/>
-        <Students name="Jigna"/>
-        <Students name="Sonali"/>
-        <Person name={this.state.Person[0].name} age={this.state.Person[0].age} />
-        <Person name={this.state.Person[1].name} age={this.state.Person[1].age}
-        click={this.swichNameHandler.bind(this,'Max!')} changed={this.namechangedHandler}>My Hobies: Cricket</Person>
-        <Person name={this.state.Person[2].name} age={this.state.Person[2].age}/>
+        <button style={style} onClick={this.TogglePersonHandler}>Toggle Popup Switch Name</button>
+        {persons}
+        {/* { 
+          this.state.showPersons === true ?
+          <div>
+            <button style={style} onClick={this.swichNameHandler}>Switch Name</button>
+            <Students name="Chirag"/>
+            <Students name="Nikunj"/>
+            <Students name="Jigna"/>
+            <Students name="Sonali"/>
+            <Person name={this.state.Person[0].name} age={this.state.Person[0].age} />
+            <Person name={this.state.Person[1].name} age={this.state.Person[1].age}
+            click={this.swichNameHandler.bind(this,'Max!')} changed={this.namechangedHandler}>My Hobies: Cricket</Person>
+            <Person name={this.state.Person[2].name} age={this.state.Person[2].age}/>
+          </div> : null
+        } */}
+
+        <h1>Assignment - SECTION-3</h1>
+        <div className="App">
+          <ol className="txtleft">
+            <li> Create tow new components: Userinput and Useroutput</li>
+            <li> Userinput should hold an input element,Useroutput two paragraph</li>
+            <li> Output multiple Useroutput components in the App component</li>
+            <li> Pass a username (of your choice) to Useroutput via props and</li>
+            <li> Add state to the App component (=> the Username) and pass the</li>
+            <li> Add a Method to Manipulate the state (=> an event-handler method)</li>
+            <li> Pass the event-handler method reference to the Userinput component</li>
+            <li> Ensure that the new input entered by the user overwrites the </li>
+            <li> Add Two-way binding to your input (in Userinput) to also</li>
+            <li>Add styling of your choice to your components/elements in </li>
+          </ol>
+        </div>
+        <Userinput changed={this.Usernamechangedhandler} currentName={this.state.username} />
+        <Useroutput userName={this.state.username} />
+        <Useroutput userName="Max" />
       </div>
     );
   }
@@ -67,6 +142,7 @@ class App extends Component{
     });
   }
 
+  
 }
 
 //component composing.
