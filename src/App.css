@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.red{
+  color: red;
+}
+
+.bold{
+  border: 1px solid black;
+}
+
 .txtleft{
   text-align: left;
 }

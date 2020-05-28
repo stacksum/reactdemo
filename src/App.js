@@ -1,11 +1,14 @@
 import React, { Component,Fragment,useState } from 'react';
-import Students from "./Component/Student/Student";
+import "./App.css";
+//import Radium from 'radium';
+import styled from 'styled-components';
 import Person from "./Component/Person/Person";
+import Students from "./Component/Student/Student";
+import Char from './Component/Assignment-4/char/char';
 import Userinput from './Component/Assignment/Userinput/Userinput';
 import Useroutput from './Component/Assignment/Useroutput/Useroutput';
-import "./App.css";
-import Char from './Component/Assignment-4/char/char';
 import Validation from './Component/Assignment-4/Validation/validation';
+
 
 // simple show the single Element  // Section-1
 /*class App extends Component{
@@ -19,25 +22,35 @@ import Validation from './Component/Assignment-4/Validation/validation';
   }
 }*/
 
+
+// When we use Method 
+const StyleButton = styled.button`
+  background-Color: ${props => props.alt ? 'red':'green'};
+  color:white;
+  font:inherit;
+  border:1px solid blue;
+  padding:8px;
+  cursor:pointer;
+
+  &:hover{
+  background-Color:${props =>props.alt ? 'salmon':'lightgreen'};
+  color:black;
+  }
+`;
+
 // when we use class we can Manipulate State    //Section-2
 class App extends Component{
+  
   state = {
-    Person:[
+    persons:[
       { id:'abc',name:'Max',age:27},
       { id:'abd',name:'Manu',age:28},
       { id:'bcs',name:'Stephanie',age:23}
     ],
     otherState:'some other value',
-    showPersons:false
-  }
-
-  state = {
+    showPersons:false,
     userinput:''
   }
-  // state = {
-  //   username:'SuperMax'
-  // };
-
 
   Usernamechangedhandler = (event) =>{
     this.setState({username:event.target.value});
@@ -54,7 +67,7 @@ class App extends Component{
   //console.log('was clicked...');
   //DON'T DO This   this.state.Person[0].name = "CHIRAG";
     this.setState({
-      Person:[
+      persons:[
         { name:'CHIRAG',age:27},
         { name:'Manu',age:28},
         { name:'Stephanie',age:23}
@@ -64,9 +77,9 @@ class App extends Component{
 
 
   deletePersonHandler = (personindex) =>{
-    const persons = this.state.Person;
+    const persons = this.state.persons;
     persons.splice(personindex,1);
-    this.setState({Person:persons});
+    this.setState({persons:persons});
   }
 
   deletecharhandler = (index) => {
@@ -76,8 +89,34 @@ class App extends Component{
     this.setState({userinput:updatetext});
   }
 
-  render(){
+  namechangedHandler = (event,id) => {
+    const personindex = this.state.persons.findIndex(p=>{
+      return p.id = id;
+    });
 
+    const person = {
+      ...this.state.persons[personindex]
+    };
+
+    person.name = event.target.value;
+    const persons = [...this.state.persons];
+    persons[personindex] = persons;
+
+    this.setState({persons:persons});
+    // this.setState({
+    //   Person:[
+    //     { name:'CHIRAG',age:27},
+    //     { name:event.target.value,age:28},
+    //     { name:'Stephanie',age:23}
+    //   ]
+    // });
+  }
+
+  inputchangehandler = (event) => {
+    this.setState({userinput:event.target.value});
+  }
+
+  render(){
     const charList = this.state.userinput.split('').map((ch,index)=>{
       return <Char 
         character={ch} 
@@ -86,11 +125,16 @@ class App extends Component{
     });
 
     const style ={
-      backgroundColor:'white',
+      backgroundColor:'green',
+      color:'white',
       font:'inherit',
       border:'1px solid blue',
       padding:'8px',
-      cursor:'pointer'
+      cursor:'pointer',
+      ':hover':{
+        backgroundColor:'lightgreen',
+        color:'black'
+      }
     };
 
 
@@ -105,22 +149,45 @@ class App extends Component{
           <Students name="Jigna"/>
           <Students name="Sonali"/>
 
-          {this.state.Person.map((person,index)=>{
-            return <Person click={this.deletePersonHandler(index)} name={person.name} age={person.age} key={person.id} />
+          {this.state.persons.map((person,index)=>{
+            return <Person 
+                click={() => this.deletePersonHandler(index)} 
+                name={person.name} 
+                age={person.age} 
+                key={person.id} 
+                changed={(event) => this.namechangedHandler(event,person.id)} />
           })}
           {/* <Person name={this.state.Person[0].name} age={this.state.Person[0].age} />
           <Person name={this.state.Person[1].name} age={this.state.Person[1].age}
           click={this.swichNameHandler.bind(this,'Max!')} changed={this.namechangedHandler}>My Hobies: Cricket</Person>
           <Person name={this.state.Person[2].name} age={this.state.Person[2].age}/> */}
         </div>
-      )
+      );
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor:'salmon',
+        color:'black'
+      }
+    };
+
+    //let classes = ['red','bold'].join(' ');
+    const classes = [];
+    if(this.state.persons.length <=2)
+    {
+      classes.push('red');  //classes = ['red']
+    }
+    if(this.state.persons.length <=1)
+    {
+      classes.push('bold'); //classes = ['bold']
     }
 
     return(
       <div className="App">
         <h1>This is my react app</h1>
-        <p>This is realy working.</p>
-        <button style={style} onClick={this.TogglePersonHandler}>Toggle Popup Switch Name</button>
+        <p className={classes.join(' ')}>This is realy working.</p>
+        <StyleButton alt={this.state.showPersons} onClick={this.TogglePersonHandler}>
+          Toggle Person
+        </StyleButton>
         {persons}
         {/* { 
           this.state.showPersons === true ?
@@ -174,38 +241,17 @@ class App extends Component{
           {charList}
         </div>
 
-        END SECTION - 4
+        <h1>SECTION-5</h1>
+        <div className="App">
+          <div className="txtleft">
+
+          </div>
+        </div>
       </div>
     );
   }
-
-  namechangedHandler = (event,id) => {
-    const personindex = this.state.person.findIndex(p=>{
-      return p.id = id;
-    });
-
-    const person = {
-      ...this.state.person[personindex]
-    };
-
-    person.name = event.target.value;
-    const persons = [...this.state.person];
-    persons[personindex] = persons;
-
-    this.setState({Person:persons})
-    // this.setState({
-    //   Person:[
-    //     { name:'CHIRAG',age:27},
-    //     { name:event.target.value,age:28},
-    //     { name:'Stephanie',age:23}
-    //   ]
-    // });
-  }
-
-  inputchangehandler = (event) => {
-    this.setState({userinput:event.target.value});
-  }
 }
+
 
 //#region  comment
 //component composing.
