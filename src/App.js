@@ -188,6 +188,7 @@ class App extends Component{
         <StyleButton alt={this.state.showPersons} onClick={this.TogglePersonHandler}>
           Toggle Person
         </StyleButton>
+        <button className="button" onClick={this.TogglePersonHandler}>Toggle</button>
         {persons}
         {/* { 
           this.state.showPersons === true ?
